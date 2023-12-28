@@ -56,7 +56,29 @@ void array_print(int64_t **array, size_t *sizes, size_t rows) {
     puts("-----------------");
   }
 }
+void array_free(int64_t **array, size_t rows) {
+  if (!array)
+    return;
+  for (size_t i = 0; i < rows; i++) {
+    free(array[i]);
+  }
+  free(array);
+}
+int64_t *array_int_min(int64_t **array, size_t *sizes, size_t rows) {
+  int64_t min = INT64_MAX;
+  int64_t *address_min = NULL;
 
+  for (size_t i = 0; i < rows; i++) {
+    int64_t *one_dim_array = array[i];
+    for (size_t j = 0; j < sizes[i]; j++) {
+      if (min > one_dim_array[j]) {
+        min = one_dim_array[j];
+        address_min = one_dim_array + j;
+      }
+    }
+  }
+  return address_min;
+}
 int main(void) {
   int64_t **arrays = NULL;
   size_t *array_sizes = NULL;
@@ -64,4 +86,9 @@ int main(void) {
   arrays = array_create(3, &array_sizes);
   print_arrays_sizes(array_sizes, 3);
   array_print(arrays, array_sizes, 3);
+
+  int64_t *min = array_int_min(arrays, array_sizes, 3);
+  printf("MIN %" PRId64 "\n", *min);
+
+  array_free(arrays, 3);
 }
