@@ -7,13 +7,14 @@
 #include <stdio.h>
 enum dynamic_array_enum { REF_NULL, OK, INVALID_SIZE, INVALID_READ };
 struct dynamic_array {
-  int *array;
+  int32_t *array;
   size_t size;
 };
 enum dynamic_array_enum dynamic_array_read(const size_t size,
                                            struct dynamic_array **const ref);
-void array_print(struct dynamic_array const * const);
-int array_operation(struct dynamic_array const * const,
-                    int(int const *const, const size_t));
-void array_free(struct dynamic_array  *);
+void dynamic_array_print(struct dynamic_array const *const);
+int32_t foreach (struct dynamic_array const *const array,
+                 void(func)(int32_t * storage, int32_t value),
+                 size_t initial_value);
+        enum dynamic_array_enum dynamic_array_free(struct dynamic_array *);
 #endif // SANDBOX_DYNAMIC_ARRAY_H

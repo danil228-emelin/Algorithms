@@ -1,6 +1,3 @@
-// add enum describing error
-// add more function
-// add cmake
 // why only int ??generic
 // why only sum?? function programming
 // make size_t constant
@@ -21,7 +18,7 @@
 
 static enum dynamic_array_enum
 
-dynamic_array_create(const size_t size, struct dynamic_array  ** ref) {
+dynamic_array_create(const size_t size, struct dynamic_array **ref) {
   *ref = malloc(sizeof(struct dynamic_array));
 
   if (!(*ref))
@@ -29,7 +26,7 @@ dynamic_array_create(const size_t size, struct dynamic_array  ** ref) {
   struct dynamic_array *dynamic_array = *ref;
 
   dynamic_array->size = size;
-  dynamic_array->array = malloc(sizeof(int) * size);
+  dynamic_array->array = malloc(sizeof(int32_t) * size);
   if (!dynamic_array->array) {
     return REF_NULL;
   }
@@ -43,18 +40,18 @@ enum dynamic_array_enum dynamic_array_read(const size_t size,
     return INVALID_SIZE;
   enum dynamic_array_enum result = dynamic_array_create(size, ref);
   if (result != OK) {
-    array_free(*ref);
+    dynamic_array_free(*ref);
     *ref = NULL;
     return result;
   }
 
   puts("read array");
   puts("-----------------------------");
-  int *array = (*ref)->array;
+  int32_t *array = (*ref)->array;
   for (size_t i = 0; i < size; i++) {
     int result_read = scanf("%d", array + i);
     if (!result_read) {
-      array_free(*ref);
+      dynamic_array_free(*ref);
       *ref = NULL;
       return INVALID_READ;
     }
@@ -63,11 +60,11 @@ enum dynamic_array_enum dynamic_array_read(const size_t size,
 
   return OK;
 }
-void array_print(struct dynamic_array const *const dynamic_array) {
+void dynamic_array_print(struct dynamic_array const *const dynamic_array) {
   if (!dynamic_array) {
     return;
   }
-  int *const array = dynamic_array->array;
+  int32_t *const array = dynamic_array->array;
   puts("print array");
   puts("-----------------------------");
   for (size_t i = 0; i < dynamic_array->size; i++) {
@@ -75,24 +72,28 @@ void array_print(struct dynamic_array const *const dynamic_array) {
   }
   puts("-----------------------------");
 }
-int array_operation(struct dynamic_array const *array,
-                    int(func)(int const *const, const size_t size)) {
-  if (!array)
-    return 0;
-  return func(array->array, array->size);
-}
-void array_free(struct dynamic_array *dynamic_array) {
+int32_t foreach (struct dynamic_array const *const dynamic_array,
+                 void(func)(int32_t * storage, int32_t value),
+                 size_t initial_value) {
   if (!dynamic_array)
-    return;
+    return 0;
+  int32_t result = initial_value;
+  int32_t *array = dynamic_array->array;
+  for (size_t i = 0; i < dynamic_array->size; i++) {
+    func(&result, array[i]);
+  }
+  return result;
+}
+enum dynamic_array_enum
+dynamic_array_free(struct dynamic_array *dynamic_array) {
+  if (!dynamic_array)
+    return REF_NULL;
   free(dynamic_array->array);
   free((void *)dynamic_array);
+  return OK;
 }
-int array_sum(int const *const a, const size_t size) {
-  int sum = 0;
-  for (size_t i = 0; i < size; i++) {
-    sum += a[i];
-  }
-  return sum;
+void dynamic_array_sum(int32_t * storage, int32_t value) {
+*storage+=value;
 }
 
 int main(void) {
@@ -103,5 +104,8 @@ int main(void) {
     puts("SOME ERROR OCCURRED");
     return -1;
   }
-  array_print(ref);
+  dynamic_array_print(ref);
+  int32_t sum = dynamic_array_operation(ref, dynamic_array_sum);
+  printf("sum-%d\n", sum);
+  dynamic_array_free(ref);
 }
