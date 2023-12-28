@@ -1,18 +1,4 @@
-// why only int ??generic
-// why only sum?? function programming
-// make size_t constant
-// functionality
-// copy value from one array to another
-// make copy of array
-// set the value
-// add the value to the end
-// add the value in the front
-// platform-independent type
-//возвращение ошибок
-// foreach для функция высшего порядка
-//сверкту сделать.
-// Сгенерировать список длины sz с помощью значения init и функции f
-//поменять имя методов назвваниеСТр_действие
+
 #include "dynamic_array.h"
 #include <stdio.h>
 
@@ -92,9 +78,7 @@ dynamic_array_free(struct dynamic_array *dynamic_array) {
   free((void *)dynamic_array);
   return OK;
 }
-void dynamic_array_sum(int32_t * storage, int32_t value) {
-*storage+=value;
-}
+void dynamic_array_sum(int32_t *storage, int32_t value) { *storage += value; }
 
 int main(void) {
   size_t a = 4;
@@ -105,7 +89,7 @@ int main(void) {
     return -1;
   }
   dynamic_array_print(ref);
-  int32_t sum = dynamic_array_operation(ref, dynamic_array_sum);
+  int32_t sum = foreach (ref, dynamic_array_sum, 10);
   printf("sum-%d\n", sum);
   dynamic_array_free(ref);
 }

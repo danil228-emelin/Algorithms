@@ -16,5 +16,5 @@ void dynamic_array_print(struct dynamic_array const *const);
 int32_t foreach (struct dynamic_array const *const array,
                  void(func)(int32_t * storage, int32_t value),
                  size_t initial_value);
-        enum dynamic_array_enum dynamic_array_free(struct dynamic_array *);
+enum dynamic_array_enum dynamic_array_free(struct dynamic_array *);
 #endif // SANDBOX_DYNAMIC_ARRAY_H
