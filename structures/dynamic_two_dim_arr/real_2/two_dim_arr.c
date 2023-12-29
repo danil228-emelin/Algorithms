@@ -83,16 +83,37 @@ struct maybe_int64 array_int_min(struct array_int array) {
     return EMPTY_MAYBE_INT64;
   return (struct maybe_int64){.value = min, .valid = true};
 }
+void array_int_free(struct array_int a) {
+  if (!a.data)
+    return;
+  free(a.data);
+}
+void array_array_int_free(struct array_array_int array) {
+  if (!array.data || array.size <= 0)
+    return;
+  foreach (array, array_int_free)
+    ;
+  free(array.data);
+}
+void foreach (struct array_array_int arrayArrayInt,
+              void(func)(struct array_int arrayInt)) {
+  if (!arrayArrayInt.data || arrayArrayInt.size <= 0)
+    return;
+  struct array_int *arrays = arrayArrayInt.data;
+  for (size_t i = 0; i < arrayArrayInt.size; i++) {
+    func(arrays[i]);
+  }
+}
 
 int main(void) {
   struct array_array_int arrayArrayInt = array_array_int_read();
   array_array_int_print(arrayArrayInt);
-  struct maybe_int64 min= array_array_int_min(arrayArrayInt);
-  if (min.valid){
-    printf("MIN OF ARRAY %"PRId64"\n",min.value);
-  }else{
-      puts("CAN'T FIND MIN ");
+  struct maybe_int64 min = array_array_int_min(arrayArrayInt);
+  if (min.valid) {
+    printf("MIN OF ARRAY %" PRId64 "\n", min.value);
+  } else {
+    puts("CAN'T FIND MIN ");
   }
-
+  array_array_int_free(arrayArrayInt);
   return 0;
 }
