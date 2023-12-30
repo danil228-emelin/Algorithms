@@ -1,4 +1,5 @@
 #include "two_dim_arr.h"
+#include "../common.h"
 static struct array_array_int *
 array_array_int_create(const size_t amount_of_rows) {
   struct array_array_int *array = malloc(sizeof(struct array_array_int));

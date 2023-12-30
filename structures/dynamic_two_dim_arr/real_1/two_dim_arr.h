@@ -6,7 +6,6 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-size_t read_size();
 int64_t *array_int_fill(const size_t, const size_t);
 int64_t const **array_create(const size_t, size_t **const);
 void array_print(int64_t const **const, const size_t *const, const size_t);

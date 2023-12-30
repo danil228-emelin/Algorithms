@@ -6,14 +6,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-size_t read_size() {
-  size_t size = 0;
-  int res = scanf("%zu", &size);
-  if (res <= 0)
-    return 0;
-  return size;
-}
 struct array_int {
   int64_t *data;
   size_t size;

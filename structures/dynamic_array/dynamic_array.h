@@ -1,10 +1,11 @@
 // one-dimensional dynamic array
 #ifndef SANDBOX_DYNAMIC_ARRAY_H
 #define SANDBOX_DYNAMIC_ARRAY_H
-#include "stdlib.h"
 #include <inttypes.h>
 #include <stddef.h>
 #include <stdio.h>
+#include "stdlib.h"
+
 enum dynamic_array_enum { REF_NULL, OK, INVALID_SIZE, INVALID_READ };
 struct dynamic_array {
   int32_t *array;

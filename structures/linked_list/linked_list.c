@@ -18,7 +18,7 @@ void list_add_front(struct list **old, int64_t value) {
 }
 size_t list_length(const struct list *list) {
   size_t length = 0;
-  while (!list) {
+  while (list) {
     length++;
     list = list->next;
   }
@@ -34,7 +34,7 @@ void list_destroy(struct list **list_ref) {
     list = list->next;
     free(copy);
   }
-  *list_ref=NULL;
+  *list_ref = NULL;
 }
 
 struct list *list_last(struct list *list) {
@@ -64,6 +64,22 @@ void list_print(struct list const *first) {
   }
   puts("-------------------------");
 }
+struct list *list_reverse(const struct list *list) {
+  if (!list)
+    return NULL;
+  struct list *first = NULL;
+  while (list) {
+    if (!first) {
+      first = node_create(list->value);
+    } else {
+      struct list *el = node_create(list->value);
+      el->next = first;
+      first = el;
+    }
+    list = list->next;
+  }
+  return first;
+}
 
 int main(void) {
 
@@ -71,6 +87,10 @@ int main(void) {
   list_add_front(&first, 16);
   list_add_back(&first, 32);
   list_print(first);
+  struct list *first_reverse = list_reverse(first);
+  list_print(first_reverse);
+
+  printf("List length %zu\n", list_length(first));
   list_destroy(&first);
   list_print(first);
 }

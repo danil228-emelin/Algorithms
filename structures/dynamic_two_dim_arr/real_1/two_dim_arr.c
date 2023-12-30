@@ -1,12 +1,6 @@
 // make constants+issues.
 #include "two_dim_arr.h"
-size_t read_size() {
-  size_t size = 0;
-  int res = scanf("%zu", &size);
-  if (res <= 0)
-    return 0;
-  return size;
-}
+#include "../common.h"
 static void print_arrays_sizes(size_t *sizes, size_t amount) {
   puts("------------------------------------------");
   puts("Array lengths");
