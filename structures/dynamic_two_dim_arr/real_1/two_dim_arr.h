@@ -12,4 +12,5 @@ void array_print(int64_t const **const, const size_t *const, const size_t);
 void array_free(int64_t const **, const size_t);
 int64_t const *array_int_min(int64_t const **const, size_t const *const,
                              const size_t);
+void print_arrays_sizes(size_t *sizes, size_t amount);
 #endif // SANDBOX_TWO_DIM_ARR_H

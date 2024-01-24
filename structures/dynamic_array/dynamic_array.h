@@ -14,7 +14,7 @@ struct dynamic_array {
 enum dynamic_array_enum dynamic_array_read(const size_t size,
                                            struct dynamic_array **const ref);
 void dynamic_array_print(struct dynamic_array const *const);
-int32_t foreach (struct dynamic_array const *const array,
+int32_t dynamic_array_foreach (struct dynamic_array const *const array,
                  void(func)(int32_t * storage, int32_t value),
                  size_t initial_value);
 enum dynamic_array_enum dynamic_array_free(struct dynamic_array *);

@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "../common.h"
 struct array_int {
   int64_t *data;
   size_t size;

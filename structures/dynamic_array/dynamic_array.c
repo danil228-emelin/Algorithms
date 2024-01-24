@@ -58,7 +58,7 @@ void dynamic_array_print(struct dynamic_array const *const dynamic_array) {
   }
   puts("-----------------------------");
 }
-int32_t foreach (struct dynamic_array const *const dynamic_array,
+int32_t dynamic_array_foreach (struct dynamic_array const *const dynamic_array,
                  void(func)(int32_t * storage, int32_t value),
                  size_t initial_value) {
   if (!dynamic_array)
@@ -78,18 +78,4 @@ dynamic_array_free(struct dynamic_array *dynamic_array) {
   free((void *)dynamic_array);
   return OK;
 }
-void dynamic_array_sum(int32_t *storage, int32_t value) { *storage += value; }
 
-int main(void) {
-  size_t a = 4;
-  struct dynamic_array *ref = NULL;
-  enum dynamic_array_enum res = dynamic_array_read(a, &ref);
-  if (res != OK) {
-    puts("SOME ERROR OCCURRED");
-    return -1;
-  }
-  dynamic_array_print(ref);
-  int32_t sum = foreach (ref, dynamic_array_sum, 10);
-  printf("sum-%d\n", sum);
-  dynamic_array_free(ref);
-}

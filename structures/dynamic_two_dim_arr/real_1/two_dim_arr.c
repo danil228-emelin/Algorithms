@@ -1,7 +1,7 @@
 // make constants+issues.
 #include "two_dim_arr.h"
 #include "../common.h"
-static void print_arrays_sizes(size_t *sizes, size_t amount) {
+void print_arrays_sizes(size_t *sizes, size_t amount) {
   puts("------------------------------------------");
   puts("Array lengths");
   for (size_t i = 0; i < amount; i++) {
@@ -77,18 +77,4 @@ int64_t const *array_int_min(int64_t const **const array,
     }
   }
   return address_min;
-}
-int main(void) {
-  const int64_t **arrays = NULL;
-  size_t *array_sizes = NULL;
-
-  arrays = array_create(3, &array_sizes);
-  print_arrays_sizes(array_sizes, 3);
-  array_print(arrays, array_sizes, 3);
-
-  int64_t const *min = array_int_min(arrays, array_sizes, 3);
-  printf("MIN %" PRId64 "\n", *min);
-
-  array_free(arrays, 3);
-  return 0;
 }

@@ -1,5 +1,5 @@
 #include "two_dim_arr.h"
-#include "../common.h"
+
 static struct array_array_int *
 array_array_int_create(const size_t amount_of_rows) {
   struct array_array_int *array = malloc(sizeof(struct array_array_int));
@@ -104,17 +104,4 @@ void foreach (struct array_array_int arrayArrayInt,
   for (size_t i = 0; i < arrayArrayInt.size; i++) {
     func(arrays[i]);
   }
-}
-
-int main(void) {
-  struct array_array_int arrayArrayInt = array_array_int_read();
-  array_array_int_print(arrayArrayInt);
-  struct maybe_int64 min = array_array_int_min(arrayArrayInt);
-  if (min.valid) {
-    printf("MIN OF ARRAY %" PRId64 "\n", min.value);
-  } else {
-    puts("CAN'T FIND MIN ");
-  }
-  array_array_int_free(arrayArrayInt);
-  return 0;
 }

@@ -1,7 +1,7 @@
 #include "linked_list.h"
 #include <errno.h>
 #include <string.h>
-struct list *node_create(int64_t value) {
+struct list *list_node_create(int64_t value) {
   struct list *node = malloc(sizeof(struct list));
   if (!node)
     return NULL;
@@ -12,23 +12,23 @@ struct list *node_create(int64_t value) {
 void list_add_front(struct list **old, int64_t value) {
   if (!old)
     return;
-  struct list *new_node = node_create(value);
+  struct list *new_node = list_node_create(value);
   if (!new_node)
     return;
   new_node->next = *old;
   *old = new_node;
 }
-void foreach (struct list const *list, void(func)(int64_t value)) {
+void list_foreach (struct list const *list, void(func)(int64_t value)) {
   while (list) {
     func(list->value);
     list = list->next;
   }
 }
-void map(struct list const *base_list, int64_t(func)(int64_t),
+void list_map(struct list const *base_list, int64_t(func)(int64_t),
          struct list **created_list) {
   if (!base_list || !func)
     return;
-  struct list *node = node_create(func(base_list->value));
+  struct list *node = list_node_create(func(base_list->value));
   if (!node) {
     return;
   }
@@ -36,7 +36,7 @@ void map(struct list const *base_list, int64_t(func)(int64_t),
   *created_list = node;
   struct list *first = node;
   while (base_list) {
-    struct list *new_node = node_create(func(base_list->value));
+    struct list *new_node =list_node_create(func(base_list->value));
     if (!new_node) {
       list_destroy(created_list);
       return;
@@ -83,7 +83,7 @@ void list_add_back(struct list **old, int64_t value) {
   while (first->next) {
     first = first->next;
   }
-  struct list *new_node = node_create(value);
+  struct list *new_node = list_node_create(value);
   first->next = new_node;
 }
 void list_print(struct list const *first, char const *list_name) {
@@ -105,9 +105,9 @@ struct list *list_reverse(const struct list *list) {
   struct list *first = NULL;
   while (list) {
     if (!first) {
-      first = node_create(list->value);
+      first = list_node_create(list->value);
     } else {
-      struct list *el = node_create(list->value);
+      struct list *el = list_node_create(list->value);
       el->next = first;
       first = el;
     }
@@ -115,7 +115,7 @@ struct list *list_reverse(const struct list *list) {
   }
   return first;
 }
-void map_mut(struct list *list, int64_t(function)(int64_t)) {
+void list_map_mut(struct list *list, int64_t(function)(int64_t)) {
   if (!list || !function)
     return;
   while (list) {
@@ -124,7 +124,3 @@ void map_mut(struct list *list, int64_t(function)(int64_t)) {
   }
 }
 int64_t f(int64_t value) { return value + 1; }
-
-int main(void) {
-  struct list *first = node_create(25);
-}
