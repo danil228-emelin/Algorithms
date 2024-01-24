@@ -1,6 +1,6 @@
 
-#include <stdio.h>
 #include "dynamic_array.h"
+#include <stdio.h>
 
 static enum dynamic_array_enum
 

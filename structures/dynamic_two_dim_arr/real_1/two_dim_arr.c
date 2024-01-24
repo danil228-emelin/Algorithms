@@ -90,5 +90,5 @@ int main(void) {
   printf("MIN %" PRId64 "\n", *min);
 
   array_free(arrays, 3);
-    return 0;
+  return 0;
 }

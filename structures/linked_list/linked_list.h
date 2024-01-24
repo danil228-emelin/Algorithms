@@ -12,13 +12,15 @@ struct list {
   int64_t value;
   struct list *next;
 };
-struct list *node_create(int64_t value);
-void list_add_front(struct list **old, int64_t value);
-size_t list_length(const struct list *list);
-void list_destroy(struct list **list);
-struct list *list_last(struct list *list);
-void list_print(struct list const *first);
-void list_add_back(struct list **old, int64_t value);
-struct maybe_int64 list_at(const struct list *list, size_t idx);
-struct list *list_reverse(const struct list *list);
+struct list *node_create(int64_t);
+void list_add_front(struct list **, int64_t);
+size_t list_length(const struct list *);
+void list_destroy(struct list **);
+struct list *list_last(struct list *);
+void list_print(struct list const *,char const *);
+void list_add_back(struct list **, int64_t);
+void foreach (struct list const *, void(int64_t));
+void map(struct list const *, int64_t(int64_t), struct list **);
+void map_mut(struct list  *, int64_t(int64_t));
+struct list *list_reverse(const struct list *);
 #endif // SANDBOX_LINKED_LIST_H

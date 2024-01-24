@@ -1,4 +1,6 @@
 #include "linked_list.h"
+#include <errno.h>
+#include <string.h>
 struct list *node_create(int64_t value) {
   struct list *node = malloc(sizeof(struct list));
   if (!node)
@@ -16,6 +18,35 @@ void list_add_front(struct list **old, int64_t value) {
   new_node->next = *old;
   *old = new_node;
 }
+void foreach (struct list const *list, void(func)(int64_t value)) {
+  while (list) {
+    func(list->value);
+    list = list->next;
+  }
+}
+void map(struct list const *base_list, int64_t(func)(int64_t),
+         struct list **created_list) {
+  if (!base_list || !func)
+    return;
+  struct list *node = node_create(func(base_list->value));
+  if (!node) {
+    return;
+  }
+  base_list = base_list->next;
+  *created_list = node;
+  struct list *first = node;
+  while (base_list) {
+    struct list *new_node = node_create(func(base_list->value));
+    if (!new_node) {
+      list_destroy(created_list);
+      return;
+    }
+    first->next = new_node;
+    first = new_node;
+    base_list = base_list->next;
+  }
+}
+
 size_t list_length(const struct list *list) {
   size_t length = 0;
   while (list) {
@@ -55,8 +86,12 @@ void list_add_back(struct list **old, int64_t value) {
   struct list *new_node = node_create(value);
   first->next = new_node;
 }
-void list_print(struct list const *first) {
-  puts("Printing list");
+void list_print(struct list const *first, char const *list_name) {
+  if (!list_name) {
+    puts("Printing list");
+  } else {
+    printf("Printing list %s\n", list_name);
+  }
   puts("-------------------------");
   while (first) {
     printf("%" PRId64 "\n", first->value);
@@ -80,17 +115,16 @@ struct list *list_reverse(const struct list *list) {
   }
   return first;
 }
+void map_mut(struct list *list, int64_t(function)(int64_t)) {
+  if (!list || !function)
+    return;
+  while (list) {
+    list->value = function(list->value);
+    list = list->next;
+  }
+}
+int64_t f(int64_t value) { return value + 1; }
 
 int main(void) {
-
   struct list *first = node_create(25);
-  list_add_front(&first, 16);
-  list_add_back(&first, 32);
-  list_print(first);
-  struct list *first_reverse = list_reverse(first);
-  list_print(first_reverse);
-
-  printf("List length %zu\n", list_length(first));
-  list_destroy(&first);
-  list_print(first);
 }

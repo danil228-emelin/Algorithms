@@ -7,10 +7,10 @@
 #include <inttypes.h>
 #include <stdio.h>
 inline size_t read_size() {
-    size_t size = 0;
-    int res = scanf("%zu", &size);
-    if (res <= 0)
-        return 0;
-    return size;
+  size_t size = 0;
+  int res = scanf("%zu", &size);
+  if (res <= 0)
+    return 0;
+  return size;
 }
-#endif //SANDBOX_COMMON_H
+#endif // SANDBOX_COMMON_H
